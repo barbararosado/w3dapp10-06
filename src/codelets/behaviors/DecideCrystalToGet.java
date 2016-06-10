@@ -66,6 +66,7 @@ public class DecideCrystalToGet extends Codelet {
         //double crystalToGetX=0;
 	//double crystalToGetY=0;
         double utilidade=0;
+        double util = 0;
         
         CreatureInnerSense cis = (CreatureInnerSense) innerSenseMO.getI();
         
@@ -76,7 +77,9 @@ public class DecideCrystalToGet extends Codelet {
 
                         for (Thing t : myknown) {
                             if(t.getName().contains("Jewel")){ 
-                                if(calcutil(t,bag,c,cis)>utilidade){
+                                util = calcutil(t,bag,c,cis);
+                                //System.out.println(">>>>>>>>" + util);
+                                if(util > utilidade){
                                     crystalToGet = t;
                                     crystalToGetName=t.getName();
                                     String colorName = t.getAttributes().getColor();
@@ -142,7 +145,7 @@ public class DecideCrystalToGet extends Codelet {
             if(l.ifInLeaflet(colorName)){
             n = l.getMissingNumberOfType(colorName);
             //System.out.println(""+n);
-                if(n != -1){
+                if(n != -1 && n!=0){ //if there isn't any crystal
                     p = l.getPayment()/n;
                     if(p>P){
                         P=p;

@@ -58,6 +58,7 @@ public class LowEnergyDetector extends Codelet {
             cis.fuel = c.getFuel();
             fuel = cis.fuel;
             hunger = 1 - (fuel/1000.0);          
+            hunger = hunger + 0.1;
             
             
             synchronized(hungerMO){         

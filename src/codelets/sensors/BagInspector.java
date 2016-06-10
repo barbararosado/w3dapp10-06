@@ -50,7 +50,9 @@ public class BagInspector extends Codelet {
         
         @Override
         public void proc(){
-            
+            c = c.updateState();
+            c.updateBag();
+                 
             Bag current = c.getBag();
             bagMO.setI(current);
 //            c.getSackContent()

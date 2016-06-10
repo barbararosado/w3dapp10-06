@@ -20,6 +20,10 @@ package codelets.behaviors;
 
 import br.unicamp.cst.core.entities.Codelet;
 import br.unicamp.cst.core.entities.MemoryObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import memory.CreatureInnerSense;
+import ws3dproxy.CommandExecException;
 import ws3dproxy.model.Creature;
 import ws3dproxy.model.Leaflet;
 
@@ -30,16 +34,21 @@ import ws3dproxy.model.Leaflet;
 public class Deliver extends Codelet {
     
     private MemoryObject leafletToDeliverMO;
+    private MemoryObject innerSenseMO;
+    private int reachDistance;
     private Creature c;
+    CreatureInnerSense cis;
     Leaflet l;
     
-    public Deliver(Creature cc){
+    public Deliver(Creature cc, int reachDistance){
+        this.reachDistance=reachDistance;
         c=cc;
     }
     
     @Override
     public void accessMemoryObjects(){
         leafletToDeliverMO=this.getInput("LEAFLET");
+        innerSenseMO=this.getInput("INNER");
     }
     
     @Override
@@ -47,18 +56,32 @@ public class Deliver extends Codelet {
 
         l = (Leaflet) leafletToDeliverMO.getI();
         if (l != null) {
-          Long ID = l.getID();
-          //convert long to string
-        }  
-        
-        if(l==null){
+            Long ID = l.getID();
+            String id = String.valueOf(ID);
             
             //testar se está próximo e se ele deve realmente ir trocar os pontos
+            double selfX=cis.position.getX();
+            double selfY=cis.position.getY();
+
+            double D = Math.sqrt(Math.pow(selfX, 2)+Math.pow(selfY, 2));
+//            Point2D pBank = new Point();
+//            pBank.setLocation(0, 0);
+//
+//            Point2D pSelf = new Point();
+//            pSelf.setLocation(selfX, selfY);
+//
+//            double distance = pSelf.distance(pBank);
             
-            
-            //c.deliverLeaflet(ID);
-        
-        }
+            if(D<reachDistance){ 
+                try {
+                //deliver this leaflet
+                c.deliverLeaflet(id);
+                } catch (CommandExecException ex) {
+                    Logger.getLogger(Deliver.class.getName()).log(Level.SEVERE, null, ex);
+                }
+	    }
+   
+        }  
         
     }
     
