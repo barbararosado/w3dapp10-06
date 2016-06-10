@@ -28,10 +28,12 @@ public class InnerSense extends Codelet {
 	}
 	
 	public void proc() {
-             cis.position = c.getPosition();
-             cis.pitch = c.getPitch();
-             cis.fuel = c.getFuel();
-             cis.FOV = c.getFOV();
+             
+            //System.out.println(">>>>>>>>> "+c.getAttributes().getMap());
+            cis.position = c.getPosition();
+            cis.pitch = c.getPitch();
+            cis.fuel = c.getFuel();
+            cis.FOV = c.getFOV();
 	}
         
         @Override

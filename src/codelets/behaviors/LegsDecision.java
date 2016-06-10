@@ -27,7 +27,7 @@ import br.unicamp.cst.core.entities.MemoryObject;
  */
 public class LegsDecision extends Codelet {
     private MemoryObject legsMO5;
-    private MemoryObject legsMO4;
+    //private MemoryObject legsMO4;
     private MemoryObject legsMO3;
     private MemoryObject legsMO2;
     private MemoryObject legsMO1;
@@ -40,7 +40,7 @@ public class LegsDecision extends Codelet {
         legsMO1=this.getInput("LEGS1");
         legsMO2=this.getInput("LEGS2");
         legsMO3=this.getInput("LEGS3");
-        legsMO4=this.getInput("LEGS4");
+        //legsMO4=this.getInput("LEGS4");
         legsMO5=this.getInput("LEGS5");
         legsMO=this.getOutput("LEGS");
     }
@@ -59,10 +59,10 @@ public class LegsDecision extends Codelet {
             maior = legsMO3.getEvaluation();
             i = 3;
         }
-        if(maior<legsMO4.getEvaluation()){
-            maior = legsMO4.getEvaluation();      
-            i = 4;
-        }
+//        if(maior<legsMO4.getEvaluation()){
+//            maior = legsMO4.getEvaluation();      
+//            i = 4;
+//        }
         if(maior<legsMO5.getEvaluation()){
             maior = legsMO5.getEvaluation();
             i = 5;
@@ -77,9 +77,9 @@ public class LegsDecision extends Codelet {
         else if(i==3){
             legsMO.setI(legsMO3.getI());
         }
-        else if(i==4){
-            legsMO.setI(legsMO4.getI());
-        }
+//        else if(i==4){
+//            legsMO.setI(legsMO4.getI());
+//        }
         else if(i==5){
             legsMO.setI(legsMO5.getI());
         }

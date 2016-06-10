@@ -45,8 +45,8 @@ public class EatClosestApple extends Codelet {
 		//Find distance between closest apple and self
 		//If closer than reachDistance, eat the apple
 		
-		if(closestApple != null)
-		{
+		if(closestApple != null){
+		
 			double appleX=0;
 			double appleY=0;
 			try {

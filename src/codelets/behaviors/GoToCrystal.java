@@ -34,7 +34,7 @@ import ws3dproxy.model.Thing;
 public class GoToCrystal extends Codelet {
         private MemoryObject crystalToGetMO;
 	private MemoryObject selfInfoMO;
-        private MemoryObject ambitionMO;
+        private MemoryObject greedMO;
         private MemoryObject bagMO;
 	private MemoryObject legsMO5;
 	private int creatureBasicSpeed;
@@ -49,7 +49,7 @@ public class GoToCrystal extends Codelet {
 	public void accessMemoryObjects() {
 		crystalToGetMO=this.getInput("CRYSTAL");
 		selfInfoMO=this.getInput("INNER");
-                ambitionMO=this.getInput("AMBITION");
+                greedMO=this.getInput("GREED");
 		legsMO5=this.getOutput("LEGS5");
 	}
 
@@ -114,7 +114,7 @@ public class GoToCrystal extends Codelet {
                                         message.put("SPEED", 0.0);	
 				}
 				legsMO5.updateI(message.toString());
-                                legsMO5.setEvaluation(1-(Double)ambitionMO.getI());
+                                legsMO5.setEvaluation((Double)greedMO.getI());
 //				System.out.println(message);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

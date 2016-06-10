@@ -74,10 +74,19 @@ public class MindView extends javax.swing.JFrame {
             }   
         text.setText(alltext);
         j++;
-        if (j == 40) {
+        if (j == 80) {
+            try {
+              //World.createFood(0,r.nextInt(800) , r.nextInt(600));
+              World.createJewel(r.nextInt(6), r.nextInt(800), r.nextInt(600));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //j = 0;
+        }
+        else if (j == 100){
             try {
               World.createFood(0,r.nextInt(800) , r.nextInt(600));
-              World.createJewel(r.nextInt(5), r.nextInt(800), r.nextInt(600));
+              //World.createJewel(r.nextInt(5), r.nextInt(800), r.nextInt(600));
             } catch (Exception e) {
                 e.printStackTrace();
             }

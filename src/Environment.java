@@ -30,11 +30,12 @@ public class Environment {
           try {   
              World w = World.getInstance();
              w.reset();
-             World.createFood(0, 350, 75);
+             //World.createFood(0, 350, 75);
              World.createFood(0, 100, 220);
              //World.createFood(0, 250, 210);
-             World.createJewel(r.nextInt(5), 250, 210);
-             World.createJewel(r.nextInt(5), 500, 100);
+             World.createJewel(r.nextInt(6), 250, 210);
+             World.createJewel(r.nextInt(6), 500, 100);
+             World.createJewel(r.nextInt(6), 200, 450);
              c = proxy.createCreature(100,450,0);
              b = c.getBag();
              c.updateBag();

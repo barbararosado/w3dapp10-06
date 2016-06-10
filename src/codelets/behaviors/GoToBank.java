@@ -42,11 +42,13 @@ public class GoToBank extends Codelet {
 	private MemoryObject selfInfoMO;
 	private MemoryObject legsMO1;
         private MemoryObject ambitionMO;
+        private MemoryObject greedMO;
         private MemoryObject innerSenseMO;
 	private int creatureBasicSpeed;
 	private double reachDistance;
         private Creature c;
         private Double ambition;
+        private Double greed;
 
 	public GoToBank(int creatureBasicSpeed, int reachDistance, Creature cc) {
 		this.creatureBasicSpeed=creatureBasicSpeed;
@@ -60,6 +62,7 @@ public class GoToBank extends Codelet {
 		selfInfoMO=this.getInput("INNER");
 		legsMO1=this.getOutput("LEGS1");
                 ambitionMO=this.getOutput("AMBITION");
+                greedMO=this.getOutput("GREED");
 	}
 
 	@Override
@@ -73,64 +76,71 @@ public class GoToBank extends Codelet {
                 
                                 
                 for(Leaflet l : c.getLeaflets()){
-                    if((l.getSituation() != 0) && l.getPayment() > t.getPayment()){ //if this leaflet is complete and it can provide more points
-                        t = l; 
+                    if((l.getSituation() == 1)){ //if this leaflet is complete and it can provide more points
                         complete ++;
+                        if(l.getPayment() > t.getPayment()){
+                            t = l; 
+                        }
                     }
                 }  
                 
                 ambition = complete/4;
-                        
+                greed = 0.5 - ambition;        
+                
                 synchronized(ambitionMO){         
                     ambitionMO.setI(ambition);
                 }       
                 
-                
-                if(t != null && t.getSituation() == 1) //if this leaflet is complete
-                {
-                double bankX=0;
-		double bankY=0;
-		
-		//String[] selfInfoArray=selfInfo.split(" ");
-
-		//String selfName=selfInfoArray[0];
-		double selfX=cis.position.getX();
-		double selfY=cis.position.getY();
-
-                
-		Point2D pBank = new Point();
-		pBank.setLocation(bankX, bankY);
-
-		Point2D pSelf = new Point();
-		pSelf.setLocation(selfX, selfY);
-
-		double distance = pSelf.distance(pBank);
-		JSONObject message=new JSONObject();
-		try {
-    
-			if((distance>reachDistance)){ //Go to it
-                                message.put("ACTION", "GOTO");
-				message.put("X", (int)bankX);
-				message.put("Y", (int)bankY);
-                                message.put("SPEED", creatureBasicSpeed);	
-
-			}else{//Stop
-					message.put("ACTION", "GOTO");
-					message.put("X", (int)bankX);
-					message.put("Y", (int)bankY);
-                                        message.put("SPEED", 0.0);	
-			}
-			//legsMO1.updateI(message.toString());
-                        legsMO1.setI(message.toString());
-                        legsMO1.setEvaluation((Double)ambitionMO.getI());
-//			System.out.println(message);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-                } else {
-                    legsMO1.setEvaluation(0.0);
+                synchronized(greedMO){         
+                    greedMO.setI(greed);
                 }
+                
+                
+                if(t != null && t.getSituation() == 1){ //if this leaflet is complete
+
+                    double bankX=0;
+                    double bankY=0;
+
+                    //String[] selfInfoArray=selfInfo.split(" ");
+
+                    //String selfName=selfInfoArray[0];
+                    double selfX=cis.position.getX();
+                    double selfY=cis.position.getY();
+
+
+                    Point2D pBank = new Point();
+                    pBank.setLocation(bankX, bankY);
+
+                    Point2D pSelf = new Point();
+                    pSelf.setLocation(selfX, selfY);
+
+                    double distance = pSelf.distance(pBank);
+                    JSONObject message=new JSONObject();
+                    try {
+
+                            if((distance>reachDistance)){ //Go to it
+                                    message.put("ACTION", "GOTO");
+                                    message.put("X", (int)bankX);
+                                    message.put("Y", (int)bankY);
+                                    message.put("SPEED", creatureBasicSpeed);	
+
+                            }else{//Stop
+                                            message.put("ACTION", "GOTO");
+                                            message.put("X", (int)bankX);
+                                            message.put("Y", (int)bankY);
+                                            message.put("SPEED", 0.0);	
+                            }
+                            //legsMO1.updateI(message.toString());
+                            legsMO1.setI(message.toString());
+                            legsMO1.setEvaluation((Double)ambitionMO.getI());
+    //			System.out.println(message);
+                            } catch (JSONException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                            }
+                    } else {
+                        legsMO1.setEvaluation(0.0);
+                    }
 
 	}//end proc
         
